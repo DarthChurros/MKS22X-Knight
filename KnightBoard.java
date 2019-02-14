@@ -8,12 +8,9 @@ public class KnightBoard {
     if (r <= 0 || c <= 0) throw new IllegalArgumentException("Board dimensions must be positive!");
     board = new boolean[r][c];
     outgoing = new int[r][c];
-    r = 0;
-    c = 0;
-    board[r][c] = true;
   }
 
-  public int[] moveKnight(int direction) {
+  private int[] moveKnight(int direction) {
     if (direction < 0 || direction > 7) throw new IllegalArgumentException("Direction must be from 0 to 7");
     if (!board[r][c]) throw new IllegalStateException("No knight has reached these coordinates");
     r = r + (int)Math.pow(-1, (direction / 2) % 2) * (direction % 2 + 1);
@@ -24,6 +21,18 @@ public class KnightBoard {
     ans[0] = r;
     ans[1] = c;
     return ans;
+  }
+
+  public boolean solve(int startR, int startC) {
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board[i].length; j++) {
+        if (board[i][j]) throw new IllegalStateException("Board must be empty to solve!");
+      }
+    }
+    r = startR;
+    c = startC;
+    board[r][c] = true;
+    return false;
   }
 
   public String toString() {
