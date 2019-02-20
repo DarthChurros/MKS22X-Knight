@@ -45,6 +45,7 @@ public class KnightBoard {
     String ans = "";
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
+        if (board.length * board[i].length > 10 && board[i][j] < 10) ans += " ";
         if (board[i][j] != 0) {
           ans += board[i][j] + " ";
         } else {
