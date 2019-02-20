@@ -25,6 +25,7 @@ public class KnightBoard {
         if (board[i][j] != 0) throw new IllegalStateException("Board must be empty to solve!");
       }
     }
+    if (startR < 0 || startR >= board.length || startC < 0 || startC >= board[0].length) throw new IllegalArgumentException("Coordinates out of bounds!");
     return solve(1, startR, startC);
   }
 
