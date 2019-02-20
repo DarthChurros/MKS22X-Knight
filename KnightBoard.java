@@ -29,14 +29,12 @@ public class KnightBoard {
   }
 
   private boolean solve(int moves, int r, int c) {
+    if (r < 0 || r >= board.length || c < 0 || c >= board[r].length) return false;
+    if (board[r][c] != 0) return false;
     board[r][c] = moves;
     if (moves >= board.length * board[r].length) return true;
-    if (r < 0 || r >= board.length || c < 0 || c >= board[r].length) {
-      board[r][c] = 0;
-      return false;
-    }
+    //System.out.println(this);
     for (int i = 0; i < 8; i++) {
-      System.out.println(this);
       if (solve(moves + 1, moveKnight(r, c, i)[0], moveKnight(r, c, i)[1])) return true;
     }
     board[r][c] = 0;
@@ -59,7 +57,7 @@ public class KnightBoard {
   }
 
   public static void main(String[] args) {
-    KnightBoard test = new KnightBoard(3, 3);
+    KnightBoard test = new KnightBoard(5, 5);
     System.out.println(test.solve(0, 0));
     System.out.println(test);
 
