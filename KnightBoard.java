@@ -42,6 +42,29 @@ public class KnightBoard {
     return false;
   }
 
+  public int countSolutions(int startR, int startC) {
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board[i].length; j++) {
+        if (board[i][j] != 0) throw new IllegalStateException("Board must be empty to count solutions!");
+      }
+    }
+    return count(1, startR, startC);
+  }
+
+  private int count(int moves, int r, int c) {
+    if (r < 0 || r >= board.length || c < 0 || c >= board[r].length) return 0;
+    if (board[r][c] != 0) return 0;
+    if (moves >= board.length * board[r].length) return 1;
+    int solutions = 0;
+    board[r][c] = moves;
+    //System.out.println(this);
+    for (int i = 0; i < 8; i++) {
+      solutions += count(moves + 1, moveKnight(r, c, i)[0], moveKnight(r, c, i)[1]);
+    }
+    board[r][c] = 0;
+    return solutions;
+  }
+
   public String toString() {
     String ans = "";
     for (int i = 0; i < board.length; i++) {
@@ -59,10 +82,9 @@ public class KnightBoard {
   }
 
   public static void main(String[] args) {
-    KnightBoard test = new KnightBoard(5, 5);
-    System.out.println(test.solve(0, 0));
-    System.out.println(test);
-
+    KnightBoard test = new KnightBoard(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+    System.out.println(test.countSolutions(0, 0));
+    //System.out.println(test);
   }
 }
 
