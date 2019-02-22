@@ -6,14 +6,15 @@ public class KnightBoard {
     if (r <= 0 || c <= 0) throw new IllegalArgumentException("Board dimensions must be positive!");
     board = new int[r][c];
     outgoing = new int[r][c];
+    fillOutgoing();
   }
 
   private void fillOutgoing() {
     for (int i = 0; i < outgoing.length; i++) {
       for (int j = 0; j < outgoing[i].length; j++) {
         outgoing[i][j] = 8;
-        if ((i == 1 || i == outgoing.length - 2) || (j == 0 || j == outgoing[i].length - 2)) outgoing[i][j] = 6;
-        if ((i == 1 || i == outgoing.length - 2) && (j == 0 || j == outgoing[i].length - 2)) outgoing[i][j] = 4;
+        if ((i == 1 || i == outgoing.length - 2) || (j == 1 || j == outgoing[i].length - 2)) outgoing[i][j] = 6;
+        if ((i == 1 || i == outgoing.length - 2) && (j == 1 || j == outgoing[i].length - 2)) outgoing[i][j] = 4;
         if (i == 0 || i == outgoing.length - 1 || j == 0 || j == outgoing[i].length - 1) {
           if (outgoing[i][j] == 6) {
             outgoing[i][j] = 3;
