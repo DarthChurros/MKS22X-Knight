@@ -119,10 +119,10 @@ class Move {
   private int c;
   private int moves;
 
-  public Move(int r, int c, int[] direction) {
-    this.r = r + direction[0];
-    this.c = c + direction[1];
-    moves = 0;
+  public Move(int r, int c, int moves) {
+    this.r = r;
+    this.c = c;
+    this.moves = moves;
   }
 
 }
