@@ -14,7 +14,13 @@ public class KnightBoard {
         outgoing[i][j] = 8;
         if ((i == 1 || i == outgoing.length - 2) || (j == 0 || j == outgoing[i].length - 2)) outgoing[i][j] = 6;
         if ((i == 1 || i == outgoing.length - 2) && (j == 0 || j == outgoing[i].length - 2)) outgoing[i][j] = 4;
-        if (i == 0 || i == outgoing.length - 1 || j == 0 || j == outgoing[i].length - 1) outgoing[i][j] = 4;
+        if (i == 0 || i == outgoing.length - 1 || j == 0 || j == outgoing[i].length - 1) {
+          if (outgoing[i][j] == 6) {
+            outgoing[i][j] = 3;
+          } else {
+            outgoing[i][j] = 4;
+          }
+        }
         if ((i == 0 || i == outgoing.length - 1) && (j == 0 || j == outgoing[i].length - 1)) outgoing[i][j] = 2;
       }
     }
