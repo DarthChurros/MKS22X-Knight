@@ -8,6 +8,18 @@ public class KnightBoard {
     outgoing = new int[r][c];
   }
 
+  private void fillOutgoing() {
+    for (int i = 0; i < outgoing.length; i++) {
+      for (int j = 0; j < outgoing[i].length; j++) {
+        outgoing[i][j] = 8;
+        if ((i == 1 || i == outgoing.length - 2) || (j == 0 || j == outgoing[i].length - 2)) outgoing[i][j] = 6;
+        if ((i == 1 || i == outgoing.length - 2) && (j == 0 || j == outgoing[i].length - 2)) outgoing[i][j] = 4;
+        if (i == 0 || i == outgoing.length - 1 || j == 0 || j == outgoing[i].length - 1) outgoing[i][j] = 4;
+        if ((i == 0 || i == outgoing.length - 1) && (j == 0 || j == outgoing[i].length - 1)) outgoing[i][j] = 2;
+      }
+    }
+  }
+
   private int[] moveKnight(int r, int c, int direction) {
     if (direction < 0 || direction > 7) throw new IllegalArgumentException("Direction must be from 0 to 7");
     if (board[r][c] == 0) throw new IllegalStateException("No knight has reached these coordinates");
@@ -94,3 +106,16 @@ public class KnightBoard {
  0     4
    1 5
 */
+
+class Move {
+  private int r;
+  private int c;
+  private int moves;
+
+  public Move(int r, int c, int[] direction) {
+    this.r = r + direction[0];
+    this.c = c + direction[1];
+    moves = 0;
+  }
+
+}
