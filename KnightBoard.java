@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class KnightBoard {
   private int[][] board;
   private int[][] outgoing;
@@ -45,6 +47,7 @@ public class KnightBoard {
       }
     }
     if (startR < 0 || startR >= board.length || startC < 0 || startC >= board[0].length) throw new IllegalArgumentException("Coordinates out of bounds!");
+    fillOutgoing();
     return solve(1, startR, startC);
   }
 
@@ -53,9 +56,22 @@ public class KnightBoard {
     if (board[r][c] != 0) return false;
     board[r][c] = moves;
     if (moves >= board.length * board[r].length) return true;
-    //System.out.println(this);
+    int[] options = getMoves(r, c);
+    for (int i = 0; i < options.length; i++) {
+      outgoing[moveKnight(r, c, options[i])[0]][moveKnight(r, c, options[i])[1]]--;
+    }
+    System.out.println(this);
+    System.out.println(outgoingStr());
+    System.out.println(Arrays.toString(options) + "\n___________________");
+    outgoing[r][c]--;
     for (int i = 0; i < 8; i++) {
-      if (solve(moves + 1, moveKnight(r, c, i)[0], moveKnight(r, c, i)[1])) return true;
+      if (options.length > 0) {
+        if (solve(moves + 1, moveKnight(r, c, options[i])[0], moveKnight(r, c, options[i])[1])) return true;
+      }
+    }
+    outgoing[r][c]++;
+    for (int i = 0; i < options.length; i++) {
+      outgoing[moveKnight(r, c, options[i])[0]][moveKnight(r, c, options[i])[1]]++;
     }
     board[r][c] = 0;
     return false;
@@ -67,6 +83,7 @@ public class KnightBoard {
         if (board[i][j] != 0) throw new IllegalStateException("Board must be empty to count solutions!");
       }
     }
+    fillOutgoing();
     return count(1, startR, startC);
   }
 
@@ -100,12 +117,47 @@ public class KnightBoard {
     return ans;
   }
 
+  private String outgoingStr() {
+    String ans = "";
+    for (int i = 0; i < outgoing.length; i++) {
+      for (int j = 0; j < outgoing[i].length; j++) {
+        if (outgoing.length * outgoing[i].length > 10 && outgoing[i][j] < 10) ans += " ";
+        ans += outgoing[i][j] + " ";
+      }
+      ans += "\n";
+    }
+    return ans;
+  }
+
+  private int[] getMoves(int r, int c) {
+    int[] moves = new int[outgoing[r][c]];
+    int size = 0;
+    for (int i = 0; i < 8; i++) {
+      int[] move = moveKnight(r, c, i);
+      if (move[0] >= 0 && move[0] < board.length && move[1] >= 0 && move[1] < board[r].length && board[move[0]][move[1]] == 0) {
+        moves[size++] = i;
+      }
+    }
+    int temp, j;
+    for (int i = 1; i < moves.length; i++) {
+      temp = moves[i];
+      j = i - 1;
+      while (j >= 0 && outgoing[moveKnight(r, c, moves[j])[0]][moveKnight(r, c, moves[j])[1]] > outgoing[moveKnight(r, c, moves[i])[0]][moveKnight(r, c, moves[i])[1]]) {
+        moves[j+1] = moves[j];
+        j--;
+      }
+      moves[j+1] = temp;
+    }
+    return moves;
+  }
+
   public static void main(String[] args) {
     KnightBoard test = new KnightBoard(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
-    System.out.println(test.countSolutions(0, 0));
+    System.out.println(test.solve(0, 0));
     //System.out.println(test);
   }
 }
+
 
 /*
    7 3
@@ -113,16 +165,3 @@ public class KnightBoard {
  0     4
    1 5
 */
-
-class Move {
-  private int r;
-  private int c;
-  private int moves;
-
-  public Move(int r, int c, int moves) {
-    this.r = r;
-    this.c = c;
-    this.moves = moves;
-  }
-
-}
