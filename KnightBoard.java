@@ -60,11 +60,11 @@ public class KnightBoard {
     for (int i = 0; i < options.length; i++) {
       outgoing[moveKnight(r, c, options[i])[0]][moveKnight(r, c, options[i])[1]]--;
     }
-    System.out.println(this);
-    System.out.println(outgoingStr());
-    System.out.println(Arrays.toString(options) + "\n___________________");
+    //System.out.println(this);
+    //System.out.println(outgoingStr());
+    //System.out.println(Arrays.toString(options) + "\n___________________");
     outgoing[r][c]--;
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < options.length; i++) {
       if (options.length > 0) {
         if (solve(moves + 1, moveKnight(r, c, options[i])[0], moveKnight(r, c, options[i])[1])) return true;
       }
