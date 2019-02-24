@@ -159,7 +159,7 @@ public class KnightBoard {
     for (int i = 1; i < moves.length; i++) {
       temp = moves[i];
       j = i - 1;
-      while (j >= 0 && outgoing[moveKnight(r, c, moves[j])[0]][moveKnight(r, c, moves[j])[1]] > outgoing[moveKnight(r, c, moves[i])[0]][moveKnight(r, c, moves[i])[1]]) {
+      while (j >= 0 && outgoing[moveKnight(r, c, moves[j])[0]][moveKnight(r, c, moves[j])[1]] > outgoing[moveKnight(r, c, temp)[0]][moveKnight(r, c, temp)[1]]) {
         moves[j+1] = moves[j];
         j--;
       }
