@@ -48,10 +48,27 @@ public class KnightBoard {
     }
     if (startR < 0 || startR >= board.length || startC < 0 || startC >= board[0].length) throw new IllegalArgumentException("Coordinates out of bounds!");
     fillOutgoing();
-    return solve(1, startR, startC);
+    if (board.length > 3 && board[0].length > 3) {
+      return solveOpt(1, startR, startC);
+    } else {
+      return solve(1, startR, startC);
+    }
   }
 
   private boolean solve(int moves, int r, int c) {
+    if (r < 0 || r >= board.length || c < 0 || c >= board[r].length) return false;
+    if (board[r][c] != 0) return false;
+    board[r][c] = moves;
+    if (moves >= board.length * board[r].length) return true;
+    //System.out.println(this);
+    for (int i = 0; i < 8; i++) {
+      if (solve(moves + 1, moveKnight(r, c, i)[0], moveKnight(r, c, i)[1])) return true;
+    }
+    board[r][c] = 0;
+    return false;
+  }
+
+  private boolean solveOpt(int moves, int r, int c) {
     if (r < 0 || r >= board.length || c < 0 || c >= board[r].length) return false;
     if (board[r][c] != 0) return false;
     board[r][c] = moves;
@@ -66,7 +83,7 @@ public class KnightBoard {
     outgoing[r][c]--;
     for (int i = 0; i < options.length; i++) {
       if (options.length > 0) {
-        if (solve(moves + 1, moveKnight(r, c, options[i])[0], moveKnight(r, c, options[i])[1])) return true;
+        if (solveOpt(moves + 1, moveKnight(r, c, options[i])[0], moveKnight(r, c, options[i])[1])) return true;
       }
     }
     outgoing[r][c]++;
